@@ -11,7 +11,8 @@ namespace DFBot.Modules
         [Command("ping")]
         public async Task PingAsync()
         {
-            await ReplyAsync("Hello World!");
+            var pingTime = Context.Client.Latency;
+            await ReplyAsync($"PING! {pingTime}ms");
         }
 
         
