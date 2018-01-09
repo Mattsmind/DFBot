@@ -14,7 +14,5 @@ namespace DFBot.Modules
             var pingTime = Context.Client.Latency;
             await ReplyAsync($"PING! {pingTime}ms");
         }
-
-        
     }
 }
