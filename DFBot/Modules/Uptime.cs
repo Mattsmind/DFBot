@@ -9,6 +9,7 @@ namespace DFBot.Modules
 {
     public class Uptime : ModuleBase<SocketCommandContext>
     {
+        [Command("uptime")]
         public async Task UptimeAsync()
         {
             
