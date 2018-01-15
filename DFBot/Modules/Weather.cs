@@ -1,13 +1,10 @@
 ﻿using Discord.Commands;
-using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DFBot.Modules
 {
-    [DataContract(Name = "main")]
+    [DataContract]
     internal class WeatherAPIJson
     {
         [DataMember(Name = "placeholder1")]

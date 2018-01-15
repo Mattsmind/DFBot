@@ -1,9 +1,7 @@
 ﻿using Discord.Commands;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DFBot.Modules
