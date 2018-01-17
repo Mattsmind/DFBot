@@ -1,39 +1,42 @@
 ﻿using Discord.Commands;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace DFBot.Modules
 {
-    [DataContract]
-    internal class WeatherAPIJson
-    {
-        [DataMember(Name = "placeholder1")]
-        public string Placeholder1 { get; set; }
-
-        [DataMember(Name = "placeholder2")]
-        public string Placeholder2 { get; set; }
-
-    }
 
     [Group("weather")]
     public class Weather : ModuleBase
     {
+        string baseUrl = "http://api.openweathermap.org/data/2.5/";
+        string defaultCityQuery = $"{Program.Configuration["weather.city"]}";
+        string defaultCountryQuery = $"{Program.Configuration["weather.country"]}";
+        string defaultUnits = $"{Program.Configuration["weather.units"]}";
+
+        string appId = $"{Program.Configuration["weather:appid"]}";
+
         [Command, Alias("help")]
         public async Task DefaultWeatherCommandAsync()
         {
-            await ReplyAsync("Default");
+            await ReplyAsync("I'm Still not working.");
         }
 
         [Command("current")]
         public async Task GetWeatherCurrentAsync()
         {
-            await ReplyAsync("Get Current Weather");
+            await ReplyAsync("I don't work either.");
         }
 
         [Command("forcast")]
-        public async Task GetWeatherForecastAsync()
+        public async Task GetWeatherForecastAsync(string queryCity)
         {
-            await ReplyAsync("Get Weather Forecast");
+            string forcast = "forcast/daily";
+            
+            string url = baseUrl + forcast + "?q=" + queryCity;
+
+
+            await ReplyAsync("Nope.");
         }
     }
 }
