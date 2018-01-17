@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace DFBot.Modules
 {
@@ -9,12 +10,12 @@ namespace DFBot.Modules
     [Group("weather")]
     public class Weather : ModuleBase
     {
-        string baseUrl = "http://api.openweathermap.org/data/2.5/";
-        string defaultCityQuery = $"{Program.Configuration["weather.city"]}";
-        string defaultCountryQuery = $"{Program.Configuration["weather.country"]}";
-        string defaultUnits = $"{Program.Configuration["weather.units"]}";
+        private string baseUrl = "http://api.openweathermap.org/data/2.5/";
+        private string defaultCityQuery = $"{Program.Configuration["weather.city"]}";
+        private string defaultCountryQuery = $"{Program.Configuration["weather.country"]}";
+        private string defaultUnits = $"{Program.Configuration["weather.units"]}";
 
-        string appId = $"{Program.Configuration["weather:appid"]}";
+        private string appId = $"{Program.Configuration["weather:appid"]}";
 
         [Command, Alias("help")]
         public async Task DefaultWeatherCommandAsync()
@@ -29,11 +30,17 @@ namespace DFBot.Modules
         }
 
         [Command("forcast")]
-        public async Task GetWeatherForecastAsync(string queryCity)
+        public async Task GetWeatherForecastAsync(string queryCity, string queryCountry, string queryUnits)
         {
             string forcast = "forcast/daily";
             
-            string url = baseUrl + forcast + "?q=" + queryCity;
+            string url = baseUrl + forcast + "?q=" + queryCity + "," + queryCountry + "&cnt=3&units=" + queryUnits + "&appid=" + appId;
+
+            WebRequest req = WebRequest.Create(@url);
+            req.Method = "GET";
+
+            HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
+
 
 
             await ReplyAsync("Nope.");
