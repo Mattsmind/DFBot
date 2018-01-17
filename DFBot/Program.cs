@@ -96,7 +96,10 @@ namespace DFBot
                 {
                     Console.WriteLine(result.ErrorReason);
                 }
-                await message.DeleteAsync();
+                else
+                {
+                    await message.DeleteAsync();
+                }
             }
         }
     }
