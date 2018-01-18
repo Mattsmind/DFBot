@@ -11,9 +11,9 @@ namespace DFBot.Modules
         [Command]
         public async Task DiceRollerAsync(string arg = "1d6")
         {
-            string[] split = arg.Split("d");
+            string[] split = arg.Split("d", StringSplitOptions.RemoveEmptyEntries);
             int numOfDice = Convert.ToInt32(split[0]);
-            int numSides = Convert.ToInt32(split[2]);
+            int numSides = Convert.ToInt32(split[1]);
 
             int[] rolls = new int[numOfDice];
 
