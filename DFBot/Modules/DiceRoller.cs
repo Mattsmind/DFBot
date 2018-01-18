@@ -24,8 +24,14 @@ namespace DFBot.Modules
 
                 rolls[die] = roll;
             }
+
+            int total = 0;
+            foreach (int num in rolls)
+            {
+                total += num;
+            }
                      
-            var result = $"NUMBER OF DICE: {numOfDice} | NUMBER OF SIDES: {numSides} || ROLLS: {rolls}";
+            var result = $"NUMBER OF DICE: {numOfDice} | NUMBER OF SIDES: {numSides} || ROLLS: " + string.Join(", ", rolls) + " || TOTAL: " + total;
 
             await ReplyAsync(result);
         }
