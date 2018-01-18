@@ -4,14 +4,28 @@ using System.Threading.Tasks;
 
 namespace DFBot.Modules
 {
+    [Group("roll")]
+    [Summary("A simple dice roller.")]
     public class DiceRoller : ModuleBase<SocketCommandContext>
     {
-        [Command("roll")]
-        public async Task DiceRollerAsync(int sides = 6)
+        [Command]
+        public async Task DiceRollerAsync(string arg = "1d6")
         {
-            Random rnd = new Random();
-            int roll = rnd.Next(1, sides + 1);
-            var result = $"{Context.User.Mention} rolled {roll} on a {sides} sided die.";
+            string[] split = arg.Split("d");
+            int numOfDice = Convert.ToInt32(split[0]);
+            int numSides = Convert.ToInt32(split[2]);
+
+            int[] rolls = null;
+
+            for (int die = 0; die < numOfDice; die++)
+            {
+                Random rnd = new Random();
+                int roll = rnd.Next(1, numSides + 1);
+
+                rolls[die] = roll;
+            }
+                     
+            var result = $"NUMBER OF DICE: {numOfDice} | NUMBER OF SIDES: {numSides} || ROLLS: {rolls}";
 
             await ReplyAsync(result);
         }

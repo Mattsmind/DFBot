@@ -13,7 +13,7 @@ namespace DFBot.Modules
 
     [Group("weather")]
     [Summary("A collection of tools to get weather information from openweathermap.org")]
-    public class Weather : ModuleBase
+    public class Weather : ModuleBase<SocketCommandContext>
     {
         private string baseUrl = "http://api.openweathermap.org/data/2.5/";
         private string defaultCityQuery = $"{Program.Configuration["weather:city"]}";
