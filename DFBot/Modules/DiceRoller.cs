@@ -15,9 +15,9 @@ namespace DFBot.Modules
             int numOfDice = Convert.ToInt32(split[0]);
             int numSides = Convert.ToInt32(split[2]);
 
-            int[] rolls = null;
+            int[] rolls = new int[numOfDice];
 
-            for (int die = 0; die < numOfDice; die++)
+            for (int die = 0; die < rolls.Length; die++)
             {
                 Random rnd = new Random();
                 int roll = rnd.Next(1, numSides + 1);
