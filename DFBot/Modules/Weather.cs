@@ -12,34 +12,36 @@ namespace DFBot.Modules
 {
 
     [Group("weather")]
+    [Summary("A collection of tools to get weather information from openweathermap.org")]
     public class Weather : ModuleBase
     {
         private string baseUrl = "http://api.openweathermap.org/data/2.5/";
-        private string defaultCityQuery = $"{Program.Configuration["weather.city"]}";
-        private string defaultCountryQuery = $"{Program.Configuration["weather.country"]}";
-        private string defaultUnits = $"{Program.Configuration["weather.units"]}";
+        private string defaultCityQuery = $"{Program.Configuration["weather:city"]}";
+        private string defaultCountryQuery = $"{Program.Configuration["weather:country"]}";
+        private string defaultUnits = $"{Program.Configuration["weather:units"]}";
 
         private string appId = $"{Program.Configuration["weather:appid"]}";
 
         [Command, Alias("help")]
+        [Summary("Provides the help information for the weather module.")]
         public async Task DefaultWeatherCommandAsync()
         {
             await ReplyAsync("I'm Still not working.");
         }
 
         [Command("current")]
+        [Summary("Gets the current weather information for a given area.")]
         public async Task GetWeatherCurrentAsync()
         {
             await ReplyAsync("I don't work either.");
         }
 
-        [Command("forcast")]
-        public async Task GetWeatherForecastAsync(string queryCity, string queryCountry, string queryUnits)
+        [Command("forecast")]
+        [Summary("Gets a 3 day weather forecast for a given area.")]
+        public async Task GetWeatherForecastAsync()
         {
-            string forcast = "forcast/daily";
-
-            string url = $"{baseUrl}{forcast}?q={queryCity},{queryCountry}&cnt=3&units={queryUnits}&appid={appId}";
-
+            string url = $"{baseUrl}forecast?q={defaultCityQuery},{defaultCountryQuery}&cnt=1&units={defaultUnits}&APPID={appId}";
+           // Console.WriteLine(url);
             WebRequest req = WebRequest.Create(@url);
             req.Method = "GET";
 

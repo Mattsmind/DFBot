@@ -1,6 +1,12 @@
 {
   "bot": {
     "token": "YourTokenGoesHere",
-    "prefix": "!" 
+    "prefix": "!"
+  },
+  "weather": {
+    "appid": "your openweathermap.org api key here",
+    "city": "your default city",
+    "country": "your country code ISO-3166",
+    "units": "kelivn, metric, or imperial"
   }
 }

@@ -98,6 +98,7 @@ namespace DFBot
                 }
                 else
                 {
+                    Console.WriteLine($"[{DateTime.Now}][{message.Author.Username}]==> {message.Content}");
                     await message.DeleteAsync();
                 }
             }
