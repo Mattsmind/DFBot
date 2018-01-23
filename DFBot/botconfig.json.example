@@ -1,7 +1,8 @@
 {
   "bot": {
     "token": "YourTokenGoesHere",
-    "prefix": "!"
+    "prefix": "!",
+    "game": "I'm not configured!"
   },
   "weather": {
     "appid": "your openweathermap.org api key here",

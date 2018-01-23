@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Reflection;
@@ -47,12 +47,17 @@ namespace DFBot
             //event subscriptions
             _client.Log += Log;
 
-
+            //load modules
             await RegisterCommandsAsync();
-
+            
+            //login the bot
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
 
+            //set game tag
+            string game = $"{Configuration["bot:game"]}";
+            await _client.SetGameAsync(game, null, StreamType.NotStreaming + 1);
+            
             //delay forever
             await Task.Delay(-1);
         }
