@@ -3,13 +3,15 @@ using System.Threading.Tasks;
 
 namespace DFBot.Modules
 {
+    [Group("ping")]
+    [Summary("A ping tool, to check the bots latency to discord.")]
     public class Ping : ModuleBase<SocketCommandContext>
     {
-        [Command("ping")]
+        [Command]
         public async Task PingAsync()
         {
             var pingTime = Context.Client.Latency;
-            await ReplyAsync($"PING! {pingTime}ms");
+            await ReplyAsync($"Ping of {pingTime}ms");
         }
     }
 }

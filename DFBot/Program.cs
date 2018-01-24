@@ -99,7 +99,9 @@ namespace DFBot
 
                 if (!result.IsSuccess)
                 {
-                    Console.WriteLine(result.ErrorReason);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: {result.ErrorReason}");
+                    Console.ResetColor();
                 }
                 else
                 {

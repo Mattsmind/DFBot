@@ -5,7 +5,7 @@ namespace DFBot.Modules
 {
     public class Say : ModuleBase<SocketCommandContext>
     {
-        [Command("say")]                
+        [Command("say"), RequireOwner]                
         public async Task SayAsync([Remainder]string arg = "What would you like me to say?")
         {
             await ReplyAsync(arg);

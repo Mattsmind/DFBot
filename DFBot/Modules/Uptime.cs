@@ -19,6 +19,10 @@ namespace DFBot.Modules
             CultureInfo culture = new CultureInfo("en-US");
             string format = @"hh\:mm\:ss";
 
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine($"[ UPTIME ]===> {uptime.ToString(format, culture)}");
+
             await ReplyAsync(uptime.ToString(format, culture));
         }
     }
