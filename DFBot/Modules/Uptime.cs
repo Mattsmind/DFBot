@@ -22,6 +22,7 @@ namespace DFBot.Modules
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine($"[ UPTIME ]===> {uptime.ToString(format, culture)}");
+            Console.ResetColor();
 
             await ReplyAsync(uptime.ToString(format, culture));
         }
