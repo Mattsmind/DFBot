@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using System;
 using System.Threading.Tasks;
 
 namespace DFBot.Modules
@@ -11,6 +12,7 @@ namespace DFBot.Modules
         {
             await ReplyAsync("Terminating....");
             await Context.Client.StopAsync();
+            
         }
     }
 }

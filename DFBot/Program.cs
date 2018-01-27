@@ -30,6 +30,8 @@ namespace DFBot
         private CommandService _commands;
         private IServiceProvider _services;
 
+        public bool stayAlive = true;
+
         //The Bot
         public async Task RunBotAsync()
         {     
@@ -57,9 +59,18 @@ namespace DFBot
             //set game tag
             string game = $"{Configuration["bot:game"]}";
             await _client.SetGameAsync(game, null, StreamType.NotStreaming + 1);
-            
-            //delay forever
-            await Task.Delay(-1);
+
+            //stay alive
+            int taskDelay = -1;
+            if (stayAlive)
+            {
+                taskDelay = -1;
+            }
+            else if (!stayAlive)
+            {
+                taskDelay = 1;
+            }
+            await Task.Delay(taskDelay);
         }
 
         // EVENT HANDLERS
