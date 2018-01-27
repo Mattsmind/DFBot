@@ -30,8 +30,6 @@ namespace DFBot
         private CommandService _commands;
         private IServiceProvider _services;
 
-        public bool stayAlive = true;
-
         //The Bot
         public async Task RunBotAsync()
         {     
@@ -60,25 +58,20 @@ namespace DFBot
             string game = $"{Configuration["bot:game"]}";
             await _client.SetGameAsync(game, null, StreamType.NotStreaming + 1);
 
-            //stay alive
-            int taskDelay = -1;
-            if (stayAlive)
-            {
-                taskDelay = -1;
-            }
-            else if (!stayAlive)
-            {
-                taskDelay = 1;
-            }
-            await Task.Delay(taskDelay);
+            //delay forever       
+            await Task.Delay(-1);
         }
 
         // EVENT HANDLERS
         //Logger
         private Task Log(LogMessage arg)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(arg);
+            Console.ResetColor();
+
             return Task.CompletedTask;
+
         }
 
 

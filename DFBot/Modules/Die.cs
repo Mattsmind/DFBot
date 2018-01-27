@@ -11,7 +11,11 @@ namespace DFBot.Modules
         public async Task DieAsync()
         {
             await ReplyAsync("Terminating....");
-            await Context.Client.StopAsync();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{Context.User} called Die at {DateTime.Now}. TERMINATING!");
+            Console.ResetColor();
+
+            Environment.Exit(0);
             
         }
     }

@@ -1,7 +1,5 @@
 ﻿using Discord.Commands;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using System.Net;
 using System;
 using System.IO;
