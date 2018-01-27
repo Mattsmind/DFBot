@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System.Threading.Tasks;
 
 namespace DFBot.Modules
@@ -10,8 +11,15 @@ namespace DFBot.Modules
         [Command]
         public async Task PingAsync()
         {
+            EmbedBuilder builder = new EmbedBuilder();
+
             var pingTime = Context.Client.Latency;
-            await ReplyAsync($"Ping of {pingTime}ms");
+
+            builder.WithTitle("Ping Reply")
+                .WithColor(Color.Magenta)
+                .WithDescription($"Ping time of {pingTime}ms");
+            
+            await ReplyAsync("", false, builder.Build());
         }
     }
 }
