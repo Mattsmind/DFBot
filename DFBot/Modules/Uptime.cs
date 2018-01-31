@@ -17,7 +17,7 @@ namespace DFBot.Modules
 
             TimeSpan uptime = timeNow.Subtract(procStartTime);
             CultureInfo culture = new CultureInfo("en-US");
-            string format = @"hh\:mm\:ss";
+            string format = @"ddd\-hh\:mm\:ss";
 
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
