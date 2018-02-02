@@ -106,15 +106,17 @@ namespace DFBot
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"ERROR: {result.ErrorReason}");
                     Console.ResetColor();
+
                     await message.DeleteAsync();
                 }
                 else if (result.Error == CommandError.UnknownCommand)
                 {
-                    await Task.CompletedTask;
+                    return;
                 }
                 else
                 {
                     Console.WriteLine($"[{DateTime.Now}][{message.Author.Username}]==> {message.Content}");
+
                     await message.DeleteAsync();
                 }
             }
