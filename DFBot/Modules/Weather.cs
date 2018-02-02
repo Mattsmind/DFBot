@@ -77,7 +77,7 @@ namespace DFBot.Modules
             if (city == null)
             {
                 cityUrlSeg = defaultCity;
-                countryUrlSeg = defaultCountry;
+                countryUrlSeg = "," + defaultCountry;
             }
             else
             {
@@ -86,11 +86,15 @@ namespace DFBot.Modules
 
             if (countryCode != null)
             {
-                countryUrlSeg = countryCode;
+                countryUrlSeg = "," + countryCode;
+            }
+            else
+            {
+                countryUrlSeg = "";
             }
 
 
-            string url = $"{baseUrl}{requestType}?q={cityUrlSeg},{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
+            string url = $"{baseUrl}{requestType}?q={cityUrlSeg}{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
             return url;
         }
     }
