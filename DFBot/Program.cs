@@ -108,6 +108,10 @@ namespace DFBot
                     Console.ResetColor();
                     await message.DeleteAsync();
                 }
+                else if (result.Error == CommandError.UnknownCommand)
+                {
+                    await Task.CompletedTask;
+                }
                 else
                 {
                     Console.WriteLine($"[{DateTime.Now}][{message.Author.Username}]==> {message.Content}");
