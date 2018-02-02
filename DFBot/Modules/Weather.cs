@@ -35,26 +35,7 @@ namespace DFBot.Modules
             string reqType = "forecast";
             string additionalParams = "&cnt=1";
 
-            string url = weatherData.URLBuilder(reqType, additionalParams, city, country);
-            WebRequest req = WebRequest.Create(@url);
-            req.Method = "GET";
-
-            HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
-            if (resp.StatusCode == HttpStatusCode.OK )
-            {
-                using (Stream respStream = resp.GetResponseStream())
-                {
-                    StreamReader reader = new StreamReader(respStream, Encoding.UTF8);
-                    string _json = reader.ReadToEnd();
-                    JObject result = JObject.Parse(_json);
-
-                    await ReplyAsync($"`{result}`");
-                }
-            }
-            else
-            {
-                Console.WriteLine(string.Format("Status Code: {0}, Status Description: {1}", resp.StatusCode, resp.StatusDescription));
-            }
+            await ReplyAsync($"`{weatherData.GetWeatherData(reqType, additionalParams, city, country)}`");
 
         }
     }
@@ -69,30 +50,51 @@ namespace DFBot.Modules
         private string baseUrl = "http://api.openweathermap.org/data/2.5/";
         private string appId = $"{Program.Configuration["weather:appid"]}";
 
-        public string URLBuilder(string requestType, string additionalParams, string city = null, string countryCode = null)
+        public string GetWeatherData(string reqType, string additionalParams, string city = null, string country = null)
+        {
+            string url = URLBuilder(reqType, additionalParams, city, country);
+            WebRequest req = WebRequest.Create(@url);
+            req.Method = "GET";
+
+            HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
+            if (resp.StatusCode == HttpStatusCode.OK)
+            {
+                using (Stream respStream = resp.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(respStream, Encoding.UTF8);
+                    string _json = reader.ReadToEnd();
+                    JObject result = JObject.Parse(_json);
+
+                    return result.ToString();
+                }
+            }
+            else
+            {
+                Console.WriteLine(string.Format("Status Code: {0}, Status Description: {1}", resp.StatusCode, resp.StatusDescription));
+                return "ERROR: Something went wrong!";
+            }
+        }
+
+        private string URLBuilder(string requestType, string additionalParams = "", string city = null, string countryCode = null)
         {
             string cityUrlSeg;
             string countryUrlSeg;
 
-            if (city == null)
-            {
-                cityUrlSeg = defaultCity;
-                countryUrlSeg = "," + defaultCountry;
-            }
-            else
-            {
-                cityUrlSeg = city;
-            }
-
             if (countryCode != null)
             {
-                countryUrlSeg = "," + countryCode;
+                cityUrlSeg = city;
+                countryUrlSeg = countryCode;
+            }
+            else if (city != null)
+            {
+                cityUrlSeg = city;
+                countryUrlSeg = "";
             }
             else
             {
-                countryUrlSeg = "";
+                cityUrlSeg = defaultCity;
+                countryUrlSeg = defaultCountry;
             }
-
 
             string url = $"{baseUrl}{requestType}?q={cityUrlSeg}{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
             return url;
