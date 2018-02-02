@@ -35,7 +35,8 @@ namespace DFBot.Modules
             string reqType = "forecast";
             string additionalParams = "&cnt=1";
 
-            WebRequest req = WebRequest.Create(@weatherData.URLBuilder(reqType, city, country, additionalParams));
+            string url = weatherData.URLBuilder(reqType, additionalParams, city, country);
+            WebRequest req = WebRequest.Create(@url);
             req.Method = "GET";
 
             HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
@@ -68,7 +69,7 @@ namespace DFBot.Modules
         private string baseUrl = "http://api.openweathermap.org/data/2.5/";
         private string appId = $"{Program.Configuration["weather:appid"]}";
 
-        public string URLBuilder(string requestType, string city = null, string countryCode = null, string additionalParams = null)
+        public string URLBuilder(string requestType, string additionalParams, string city = null, string countryCode = null)
         {
             string cityUrlSeg;
             string countryUrlSeg;
@@ -76,20 +77,18 @@ namespace DFBot.Modules
             if (city == null)
             {
                 cityUrlSeg = defaultCity;
+                countryUrlSeg = defaultCountry;
             }
             else
             {
                 cityUrlSeg = city;
             }
 
-            if (countryCode == null)
-            {
-                countryUrlSeg = defaultCountry;
-            }
-            else
+            if (countryCode != null)
             {
                 countryUrlSeg = countryCode;
             }
+
 
             string url = $"{baseUrl}{requestType}?q={cityUrlSeg},{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
             return url;
