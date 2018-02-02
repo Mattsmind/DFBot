@@ -101,11 +101,12 @@ namespace DFBot
 
                 var result = await _commands.ExecuteAsync(context, argPos, _services);
 
-                if (!result.IsSuccess)
+                if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"ERROR: {result.ErrorReason}");
                     Console.ResetColor();
+                    await message.DeleteAsync();
                 }
                 else
                 {

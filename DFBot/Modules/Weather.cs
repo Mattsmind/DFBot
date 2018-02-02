@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Discord;
 
 namespace DFBot.Modules
 {
@@ -13,6 +14,7 @@ namespace DFBot.Modules
     public class Weather : ModuleBase<SocketCommandContext>
     {
         private WeatherDataHandler weatherData = new WeatherDataHandler();
+        private EmbedBuilder builder = new EmbedBuilder();
 
         [Command, Alias("help")]
         [Summary("Provides the help information for the weather module.")]
@@ -21,7 +23,7 @@ namespace DFBot.Modules
             await ReplyAsync("I'm Still not working.");
         }
 
-        [Command("current")]
+        [Command("current"), Alias("cw")]
         [Summary("Gets the current weather information for a given area.")]
         public async Task GetWeatherCurrentAsync()
         {
