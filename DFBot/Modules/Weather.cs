@@ -94,7 +94,7 @@ namespace DFBot.Modules
             else
             {
                 cityUrlSeg = defaultCity;
-                countryUrlSeg = defaultCountry;
+                countryUrlSeg = "," + defaultCountry;
             }
 
             string url = $"{baseUrl}{requestType}?q={cityUrlSeg}{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
