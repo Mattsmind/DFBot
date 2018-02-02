@@ -28,7 +28,7 @@ namespace DFBot.Modules
             await ReplyAsync("I don't work either.");
         }
 
-        [Command("forecast")]
+        [Command("forecast"), Alias("forcast", "fc")]
         [Summary("Gets a 3 day weather forecast for a given area.")]
         public async Task GetWeatherForecastAsync(string city = null, string country = null)
         {
@@ -61,14 +61,14 @@ namespace DFBot.Modules
     public class WeatherDataHandler
     {
 
-        public string defaultCity = Program.Configuration["weather:city"];
-        public string defaultCountry = Program.Configuration["weather:country"];
+        private string defaultCity = Program.Configuration["weather:city"];
+        private string defaultCountry = Program.Configuration["weather:country"];
 
         private string units = $"{Program.Configuration["weather:units"]}";
         private string baseUrl = "http://api.openweathermap.org/data/2.5/";
         private string appId = $"{Program.Configuration["weather:appid"]}";
 
-        public string URLBuilder(string reuqestType, string city = null, string countryCode = null, string additionalParams = null)
+        public string URLBuilder(string requestType, string city = null, string countryCode = null, string additionalParams = null)
         {
             string cityUrlSeg;
             string countryUrlSeg;
@@ -91,7 +91,7 @@ namespace DFBot.Modules
                 countryUrlSeg = countryCode;
             }
 
-            string url = $"{baseUrl}{reuqestType}?q={cityUrlSeg},{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
+            string url = $"{baseUrl}{requestType}?q={cityUrlSeg},{countryUrlSeg}&units={units}{additionalParams}&APPID={appId}";
             return url;
         }
     }
