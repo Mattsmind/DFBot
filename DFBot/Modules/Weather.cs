@@ -53,7 +53,6 @@ namespace DFBot.Modules
         public string GetWeatherData(string reqType, string additionalParams, string city = null, string country = null)
         {
             string url = URLBuilder(reqType, additionalParams, city, country);
-            Console.WriteLine(url);
             WebRequest req = WebRequest.Create(@url);
             req.Method = "GET";
 
