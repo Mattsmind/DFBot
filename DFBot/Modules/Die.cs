@@ -14,6 +14,7 @@ namespace DFBot.Modules
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{Context.User} called Die at {DateTime.Now}. TERMINATING!");
             Console.ResetColor();
+            await Context.Message.DeleteAsync();
 
             Environment.Exit(0);
             
