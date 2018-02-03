@@ -42,7 +42,7 @@ namespace DFBot
                 .AddSingleton(_commands)
                 .BuildServiceProvider();
 
-            string botToken = $"{Configuration["bot:token"]}";
+            string botToken = Configuration["bot:token"];
 
             //event subscriptions
             _client.Log += Log;

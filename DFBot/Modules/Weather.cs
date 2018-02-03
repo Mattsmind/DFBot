@@ -26,7 +26,7 @@ namespace DFBot.Modules
                 .WithDescription("__**;weather current**__ _<city>_ _<country/country code>_: " +
                 " Get the current weather for _city_ in _country_. If not provided, default location will be used." +
                 "\n\n__**;weather forecast**__ _<city>_  _<country/country code>_: " +
-                " Returns the Weather data for given _city_ in _country_. With no city or country provided, will get data for " +
+                " Gets a 3 day forecast for given _city_ in _country_. With no city or country provided, will get data for " +
                 "the default city set in the botconfig.json file.");
 
             await ReplyAsync("", false, builder.Build());
@@ -46,11 +46,20 @@ namespace DFBot.Modules
         [Summary("Gets a 3 day weather forecast for a given area.")]
         public async Task GetWeatherForecastAsync(string city = null, string country = null)
         {
+            EmbedBuilder builder = new EmbedBuilder();
+
             string reqType = "forecast";
             string additionalParams = "&cnt=1";
 
-            await ReplyAsync($"`{weatherData.GetWeatherData(reqType, additionalParams, city, country)}`");
+            string _json = weatherData.GetWeatherData(reqType, additionalParams, city, country);
 
+            builder.WithTitle("FORECAST")
+                .WithDescription("Your 3 day forcast for <SOME AREA>")
+                .AddInlineField("Day 1", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
+                .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
+                .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ");
+
+            await ReplyAsync("", false, builder.Build());
         }
     }
 
