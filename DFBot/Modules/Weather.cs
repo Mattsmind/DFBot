@@ -23,17 +23,23 @@ namespace DFBot.Modules
             EmbedBuilder builder = new EmbedBuilder();
             builder.WithTitle("Weather Help")
                 .WithColor(Color.DarkOrange)
-                .WithDescription("__**;weather forecast**__ <city> <country/country code>: Returns the Weather data for given _city_ in _country_. With no city or country provided, will get data for the default city set in the botconfig.json file.");
-
+                .WithDescription("__**;weather current**__ _<city>_ _<country/country code>_: " +
+                " Get the current weather for _city_ in _country_. If not provided, default location will be used." +
+                "\n\n__**;weather forecast**__ _<city>_  _<country/country code>_: " +
+                " Returns the Weather data for given _city_ in _country_. With no city or country provided, will get data for " +
+                "the default city set in the botconfig.json file.");
 
             await ReplyAsync("", false, builder.Build());
         }
 
         [Command("current"), Alias("cw")]
         [Summary("Gets the current weather information for a given area.")]
-        public async Task GetWeatherCurrentAsync()
+        public async Task GetWeatherCurrentAsync(string city = null, string country = null)
         {
-            await ReplyAsync("I don't work either.");
+            string reqType = "weather";
+            string additionalParams = "";
+
+            await ReplyAsync($"`{weatherData.GetWeatherData(reqType, additionalParams, city, country)}`");
         }
 
         [Command("forecast"), Alias("forcast", "fc")]
