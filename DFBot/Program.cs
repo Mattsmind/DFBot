@@ -93,7 +93,7 @@ namespace DFBot
             }
 
             int argPos = 0;
-            string botPrefix = $"{Configuration["bot:prefix"]}";
+            string botPrefix = Configuration["bot:prefix"];
 
             if (message.HasStringPrefix(botPrefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos)) 
             {

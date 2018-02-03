@@ -14,13 +14,21 @@ namespace DFBot.Modules
     public class Weather : ModuleBase<SocketCommandContext>
     {
         private WeatherDataHandler weatherData = new WeatherDataHandler();
-        private EmbedBuilder builder = new EmbedBuilder();
+        
 
         [Command, Alias("help")]
         [Summary("Provides the help information for the weather module.")]
         public async Task DefaultWeatherCommandAsync()
         {
-            await ReplyAsync("I'm Still not working.");
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle("Weather Help")
+                .WithColor(Color.DarkOrange)
+                .WithDescription(";weather forecast")
+                .WithDescription("Get the forecast for the defualt location set in the config.")
+                .WithDescription(";weather forecast <city> <country code> ")
+                .WithDescription("Returns the forecast data for the given location");
+
+            await ReplyAsync("", false, builder.Build());
         }
 
         [Command("current"), Alias("cw")]
@@ -48,9 +56,9 @@ namespace DFBot.Modules
         private string defaultCity = Program.Configuration["weather:city"];
         private string defaultCountry = Program.Configuration["weather:country"];
 
-        private string units = $"{Program.Configuration["weather:units"]}";
+        private string units = Program.Configuration["weather:units"];
         private string baseUrl = "http://api.openweathermap.org/data/2.5/";
-        private string appId = $"{Program.Configuration["weather:appid"]}";
+        private string appId = Program.Configuration["weather:appid"];
 
         public string GetWeatherData(string reqType, string additionalParams, string city = null, string country = null)
         {
