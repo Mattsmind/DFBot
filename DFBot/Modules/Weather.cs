@@ -23,9 +23,9 @@ namespace DFBot.Modules
             EmbedBuilder builder = new EmbedBuilder();
             builder.WithTitle("Weather Help")
                 .WithColor(Color.DarkOrange)
-                .WithDescription("__**;weather current**__ _<city>_ _<country/country code>_: " +
+                .WithDescription("__**;weather current**__ _<city>_ _<country/country code>_ : " +
                 " Get the current weather for _city_ in _country_. If not provided, default location will be used." +
-                "\n\n__**;weather forecast**__ _<city>_  _<country/country code>_: " +
+                "\n\n__**;weather forecast**__ _<city>_  _<country/country code>_ : " +
                 " Gets a 3 day forecast for given _city_ in _country_. With no city or country provided, will get data for " +
                 "the default city set in the botconfig.json file.");
 
@@ -36,6 +36,8 @@ namespace DFBot.Modules
         [Summary("Gets the current weather information for a given area.")]
         public async Task GetWeatherCurrentAsync(string city = null, string country = null)
         {
+            EmbedBuilder builder = new EmbedBuilder();
+
             string reqType = "weather";
             string additionalParams = "";
 
@@ -57,7 +59,8 @@ namespace DFBot.Modules
                 .WithDescription("Your 3 day forcast for <SOME AREA>")
                 .AddInlineField("Day 1", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
                 .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
-                .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ");
+                .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
+                .WithColor(Color.LightOrange);
 
             await ReplyAsync("", false, builder.Build());
         }
