@@ -23,10 +23,8 @@ namespace DFBot.Modules
             EmbedBuilder builder = new EmbedBuilder();
             builder.WithTitle("Weather Help")
                 .WithColor(Color.DarkOrange)
-                .WithDescription(";weather forecast")
-                .WithDescription("Get the forecast for the defualt location set in the config.")
-                .WithDescription(";weather forecast <city> <country code> ")
-                .WithDescription("Returns the forecast data for the given location");
+                .WithDescription("__**;weather forecast**__ <city> <country/country code>: Returns the Weather data for given _city_ in _country_. With no city or country provided, will get data for the default city set in the botconfig.json file.");
+
 
             await ReplyAsync("", false, builder.Build());
         }
