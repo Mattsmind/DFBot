@@ -26,7 +26,7 @@ namespace DFBot.Modules
                 .WithDescription("__**;weather current**__ _<city>_ _<country/country code>_ : " +
                 " Get the current weather for _city_ in _country_. If not provided, default location will be used." +
                 "\n\n__**;weather forecast**__ _<city>_  _<country/country code>_ : " +
-                " Gets a 3 day forecast for given _city_ in _country_. With no city or country provided, will get data for " +
+                " Gets a 9 hour forecast for given _city_ in _country_. With no city or country provided, will get data for " +
                 "the default city set in the botconfig.json file.");
 
             await ReplyAsync("", false, builder.Build());
@@ -41,7 +41,25 @@ namespace DFBot.Modules
             string reqType = "weather";
             string additionalParams = "";
 
-            await ReplyAsync($"`{weatherData.GetWeatherData(reqType, additionalParams, city, country)}`");
+            JObject _json = JObject.Parse(weatherData.GetWeatherData(reqType, additionalParams, city, country));
+
+            string cwCity = (string)_json.SelectToken("name");
+            string cwCountry = (string)_json.SelectToken("sys.country");
+            string temp = (string)_json.SelectToken("main.temp");
+            string tempMax = (string)_json.SelectToken("main.temp_max");
+            string tempMin = (string)_json.SelectToken("main.temp_min");
+            string condition = (string)_json.SelectToken("weather[0].description");
+            DateTime sunrise = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken("sys.sunrise"));
+            DateTime sunset = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken("sys.sunset"));
+            DateTime date = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken("dt"));
+
+            builder.WithTitle($"WEATHER: {date.ToShortDateString()}")
+                .WithDescription($"Weather for {cwCity}, {cwCountry}")
+                .AddInlineField("Temprature", $"**Temp:** {temp} °F\n**High:** {tempMax} °F\n**Low:** {tempMin} °F")
+                .AddInlineField("Other Info", $"**Condition:** {condition}\n**Sunrise:** {sunrise.ToShortTimeString()}\n**Sunset:** {sunset.ToShortTimeString()}")
+                .WithColor(Color.Red);
+
+            await ReplyAsync("", false, builder.Build());
         }
 
         [Command("forecast"), Alias("forcast", "fc")]
@@ -51,15 +69,35 @@ namespace DFBot.Modules
             EmbedBuilder builder = new EmbedBuilder();
 
             string reqType = "forecast";
-            string additionalParams = "&cnt=1";
+            string additionalParams = "&cnt=3";
 
-            string _json = weatherData.GetWeatherData(reqType, additionalParams, city, country);
+            JObject _json = JObject.Parse(weatherData.GetWeatherData(reqType, additionalParams, city, country));
 
-            builder.WithTitle("FORECAST")
-                .WithDescription("Your 3 day forcast for <SOME AREA>")
-                .AddInlineField("Day 1", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
-                .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
-                .AddInlineField("Day 3", "**High Temp**: \n**Low Temp**: \n**Conditions**: ")
+            string fcCity = (string)_json.SelectToken("city.name");
+            string fcCountry = (string)_json.SelectToken("city.country");
+            string[] tempMax = new string [3];
+            string[] tempMin = new string[3];
+            string[] conditions = new string[3];
+            DateTime[] dayOfTheWeek = new DateTime[3];
+
+            for (int day = 0; day <= 2; day++)
+            {
+                tempMax[day] = (string)_json.SelectToken($"list[{day}].main.temp_max");
+                tempMin[day] = (string)_json.SelectToken($"list[{day}].main.temp_min");
+                conditions[day] = (string)_json.SelectToken($"list[{day}].weather[0].description");
+                dayOfTheWeek[day] = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken($"list[{day}].dt"));
+            }
+
+            Console.WriteLine(dayOfTheWeek.Length);
+            Console.WriteLine((double)_json.SelectToken("list[0].dt"));
+            Console.WriteLine((double)_json.SelectToken("list[1].dt"));
+            Console.WriteLine((double)_json.SelectToken("list[2].dt"));
+
+            builder.WithTitle("WEATHER FORECAST")
+                .WithDescription($"YOUR 9 HOUR FORECAST FOR {fcCity.ToUpper()}, {fcCountry.ToUpper()}")
+                .AddInlineField($"{dayOfTheWeek[0].ToShortTimeString()}", $"**High Temp**: {tempMax[0]} °F\n**Low Temp**: {tempMin[0]} °F\n**Conditions**: {conditions[0]}")
+                .AddInlineField($"{dayOfTheWeek[1].ToShortTimeString()}", $"**High Temp**: {tempMax[1]} °F\n**Low Temp**: {tempMin[1]} °F\n**Conditions**: {conditions[1]}")
+                .AddInlineField($"{dayOfTheWeek[2].ToShortTimeString()}", $"**High Temp**: {tempMax[2]} °F\n**Low Temp**: {tempMin[2]} °F\n**Conditions**: {conditions[2]}")
                 .WithColor(Color.LightOrange);
 
             await ReplyAsync("", false, builder.Build());
@@ -99,6 +137,13 @@ namespace DFBot.Modules
                 Console.WriteLine(string.Format("Status Code: {0}, Status Description: {1}", resp.StatusCode, resp.StatusDescription));
                 return "ERROR: Something went wrong!";
             }
+        }
+
+        public DateTime ConvertUnixTimestampToDateTime(double unixTimeStamp)
+        {
+            DateTime covertedTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            covertedTime = covertedTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return covertedTime;
         }
 
         private string URLBuilder(string requestType, string additionalParams = "", string city = null, string countryCode = null)
