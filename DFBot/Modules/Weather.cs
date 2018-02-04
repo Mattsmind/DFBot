@@ -88,11 +88,6 @@ namespace DFBot.Modules
                 dayOfTheWeek[day] = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken($"list[{day}].dt"));
             }
 
-            Console.WriteLine(dayOfTheWeek.Length);
-            Console.WriteLine((double)_json.SelectToken("list[0].dt"));
-            Console.WriteLine((double)_json.SelectToken("list[1].dt"));
-            Console.WriteLine((double)_json.SelectToken("list[2].dt"));
-
             builder.WithTitle("WEATHER FORECAST")
                 .WithDescription($"YOUR 9 HOUR FORECAST FOR {fcCity.ToUpper()}, {fcCountry.ToUpper()}")
                 .AddInlineField($"{dayOfTheWeek[0].ToShortTimeString()}", $"**High Temp**: {tempMax[0]} °F\n**Low Temp**: {tempMin[0]} °F\n**Conditions**: {conditions[0]}")
