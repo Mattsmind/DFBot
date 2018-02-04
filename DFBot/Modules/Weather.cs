@@ -63,7 +63,7 @@ namespace DFBot.Modules
         }
 
         [Command("forecast"), Alias("forcast", "fc")]
-        [Summary("Gets a 3 day weather forecast for a given area.")]
+        [Summary("Gets a 9 hour weather forecast for a given area.")]
         public async Task GetWeatherForecastAsync(string city = null, string country = null)
         {
             EmbedBuilder builder = new EmbedBuilder();
