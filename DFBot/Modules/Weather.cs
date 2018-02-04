@@ -78,21 +78,21 @@ namespace DFBot.Modules
             string[] tempMax = new string [3];
             string[] tempMin = new string[3];
             string[] conditions = new string[3];
-            DateTime[] dayOfTheWeek = new DateTime[3];
+            DateTime[] timeOfDay = new DateTime[3];
 
-            for (int day = 0; day <= 2; day++)
+            for (int i = 0; i <= 2; i++)
             {
-                tempMax[day] = (string)_json.SelectToken($"list[{day}].main.temp_max");
-                tempMin[day] = (string)_json.SelectToken($"list[{day}].main.temp_min");
-                conditions[day] = (string)_json.SelectToken($"list[{day}].weather[0].description");
-                dayOfTheWeek[day] = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken($"list[{day}].dt"));
+                tempMax[i] = (string)_json.SelectToken($"list[{i}].main.temp_max");
+                tempMin[i] = (string)_json.SelectToken($"list[{i}].main.temp_min");
+                conditions[i] = (string)_json.SelectToken($"list[{i}].weather[0].description");
+                timeOfDay[i] = weatherData.ConvertUnixTimestampToDateTime((double)_json.SelectToken($"list[{i}].dt"));
             }
 
             builder.WithTitle("WEATHER FORECAST")
                 .WithDescription($"YOUR 9 HOUR FORECAST FOR {fcCity.ToUpper()}, {fcCountry.ToUpper()}")
-                .AddInlineField($"{dayOfTheWeek[0].ToShortTimeString()}", $"**High Temp**: {tempMax[0]} °F\n**Low Temp**: {tempMin[0]} °F\n**Conditions**: {conditions[0]}")
-                .AddInlineField($"{dayOfTheWeek[1].ToShortTimeString()}", $"**High Temp**: {tempMax[1]} °F\n**Low Temp**: {tempMin[1]} °F\n**Conditions**: {conditions[1]}")
-                .AddInlineField($"{dayOfTheWeek[2].ToShortTimeString()}", $"**High Temp**: {tempMax[2]} °F\n**Low Temp**: {tempMin[2]} °F\n**Conditions**: {conditions[2]}")
+                .AddInlineField($"{timeOfDay[0].ToShortTimeString()}", $"**High Temp**: {tempMax[0]} °F\n**Low Temp**: {tempMin[0]} °F\n**Conditions**: {conditions[0]}")
+                .AddInlineField($"{timeOfDay[1].ToShortTimeString()}", $"**High Temp**: {tempMax[1]} °F\n**Low Temp**: {tempMin[1]} °F\n**Conditions**: {conditions[1]}")
+                .AddInlineField($"{timeOfDay[2].ToShortTimeString()}", $"**High Temp**: {tempMax[2]} °F\n**Low Temp**: {tempMin[2]} °F\n**Conditions**: {conditions[2]}")
                 .WithColor(Color.LightOrange);
 
             await ReplyAsync("", false, builder.Build());
