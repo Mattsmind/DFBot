@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -11,20 +12,22 @@ namespace DFBot.Modules
         [Command("uptime")]
         public async Task UptimeAsync()
         {
+            EmbedBuilder builder = new EmbedBuilder();
             
             DateTime procStartTime = Process.GetCurrentProcess().StartTime;
             DateTime timeNow = DateTime.Now;
 
             TimeSpan uptime = timeNow.Subtract(procStartTime);
             CultureInfo culture = new CultureInfo("en-US");
-            string format = @"ddd\-hh\:mm\:ss";
+            string format = @"ddd\:hh\:mm\:ss";
 
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine($"[ UPTIME ]===> {uptime.ToString(format, culture)}");
-            Console.ResetColor();
+            string[] splitTime = uptime.ToString(format, culture).Split(":", StringSplitOptions.RemoveEmptyEntries);
 
-            await ReplyAsync(uptime.ToString(format, culture));
+            builder.WithTitle("Uptime")
+                .WithDescription($"{splitTime[0]} Days, {splitTime[1]} Hours, {splitTime[2]} Minutes and {splitTime[3]} Seconds.")
+                .WithColor(Color.LighterGrey);
+
+            await ReplyAsync("", false, builder.Build());
         }
     }
 }

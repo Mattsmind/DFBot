@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace DFBot.Modules
         [Command]
         public async Task DiceRollerAsync(string arg = "1d6")
         {
+            EmbedBuilder builder = new EmbedBuilder();
+
             string[] split = arg.Split("d", StringSplitOptions.RemoveEmptyEntries);
             int numOfDice = Convert.ToInt32(split[0]);
             int numSides = Convert.ToInt32(split[1]);
@@ -31,9 +34,13 @@ namespace DFBot.Modules
                 total += num;
             }
                      
-            var result = $"NUMBER OF DICE: {numOfDice} | NUMBER OF SIDES: {numSides} || ROLLS: " + string.Join(", ", rolls) + " || TOTAL: " + total;
+            //var result = $"NUMBER OF DICE: {numOfDice} | NUMBER OF SIDES: {numSides} || ROLLS: " + string.Join(", ", rolls) + " || TOTAL: " + total;
 
-            await ReplyAsync(result);
+            builder.WithTitle($"{Context.User.Username} rolled {numOfDice}, {numSides} sided dice.")
+                .WithDescription("**ROLLS:** " + string.Join(", ", rolls) + "\n\n**TOTAL OF ALL DICE:** " + total)
+                .WithColor(Color.Blue);
+
+            await ReplyAsync("", false, builder.Build());
         }
     }
 }
