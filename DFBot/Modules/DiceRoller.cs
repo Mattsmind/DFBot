@@ -33,8 +33,6 @@ namespace DFBot.Modules
             {
                 total += num;
             }
-                     
-            //var result = $"NUMBER OF DICE: {numOfDice} | NUMBER OF SIDES: {numSides} || ROLLS: " + string.Join(", ", rolls) + " || TOTAL: " + total;
 
             builder.WithTitle($"{Context.User.Username} rolled {numOfDice}, {numSides} sided dice.")
                 .WithDescription("**ROLLS:** " + string.Join(", ", rolls) + "\n\n**TOTAL OF ALL DICE:** " + total)
