@@ -28,4 +28,9 @@ namespace DFBot.Modules
             await ReplyAsync("", false, builder.Build());
         }
     }
+
+    class CryptoCoinData
+    {
+
+    }
 }

@@ -149,7 +149,7 @@ namespace DFBot.Modules
             if (countryCode != null)
             {
                 cityUrlSeg = city;
-                countryUrlSeg = countryCode;
+                countryUrlSeg = "," + countryCode;
             }
             else if (city != null)
             {
