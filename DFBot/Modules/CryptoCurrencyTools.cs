@@ -82,37 +82,36 @@ namespace DFBot.Modules
             }
         }
     }
-    
-    
-    /*   class CoinbaseDataHandler
-    {
-        private static readonly HttpClient _client = new HttpClient();
 
-        public async Task<List<CoinbaseData>> ProcessCoinbaseData(string currencyPair)
-        {
-            var serializer = new DataContractJsonSerializer(typeof(List<CoinbaseData>));
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var _json = _client.GetStreamAsync($"https://api.coinbase.com/v2/prices/{currencyPair}/spot");
-            Console.WriteLine(JObject.Parse(_json));
-            var result = serializer.ReadObject(await _json) as List<CoinbaseData>;
+    //class CoinbaseDataHandler
+    //{
+    //    private static readonly HttpClient _client = new HttpClient();
 
-            Console.WriteLine(result.Count);
-            return result;
-        }
-    }
+    //    public async Task<List<CoinbaseData>> ProcessCoinbaseData(string currencyPair)
+    //    {
+    //        var serializer = new DataContractJsonSerializer(typeof(List<CoinbaseData>));
+    //        _client.DefaultRequestHeaders.Accept.Clear();
+    //        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-    [DataContract(Name = "data")]
-    public class CoinbaseData
-    {
-        [DataMember(Name = "base")]
-        public string Base { get; set; }
+    //        var _json = await _client.GetStreamAsync($"https://api.coinbase.com/v2/prices/{currencyPair}/spot");
+    //        var result = serializer.ReadObject(_json) as List<CoinbaseData>;
 
-        [DataMember(Name = "currency")]
-        public string Currency { get; set; }
+    //        Console.WriteLine(result.Count);
+    //        return result;
+    //    }
+    //}
 
-        [DataMember(Name = "amount")]
-        public string Amount { get; set; }
-    }*/
+    //[DataContract(Name = "data")]
+    //public class CoinbaseData
+    //{
+    //    [DataMember(Name = "base")]
+    //    public string Base { get; set; }
+
+    //    [DataMember(Name = "currency")]
+    //    public string Currency { get; set; }
+
+    //    [DataMember(Name = "amount")]
+    //    public string Amount { get; set; }
+    //}
 }
